@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setRecyclerView(){
         // Set contactItemClick & contactItemLongClick lambda
-        val adapter = TodoAdapter ()
+        val adapter = TodoAdapter ({ todo -> deleteDialog(todo)},{ todo -> deleteDialog(todo)})
 
         binding.recyclerView.adapter=adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
