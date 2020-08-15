@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         //setContentView(R.layout.activity_main)
 
         binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-        //binding.lifecycleOwner = this
+        binding.lifecycleOwner = this
         binding.viewModel = viewModel
         setRecyclerView()
 
@@ -52,12 +52,7 @@ class MainActivity : AppCompatActivity() {
         val adapter = TodoAdapter ({ todo -> deleteDialog(todo)},{ todo -> deleteDialog(todo)})
 
         binding.recyclerView.adapter=adapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.setHasFixedSize(true)
 
-
-        viewModel.getAll().observe(this, Observer { todos ->
-            adapter.setTodos(todos!!)
-        })
     }
 }

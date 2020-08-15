@@ -1,42 +1,43 @@
 package com.example.sampleapp
 
-import android.app.Application
-import android.content.Intent
+
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.TextView
-import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat.startActivity
-import androidx.lifecycle.lifecycleScope
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sampleapp.databinding.ItemTodoBinding
-import kotlinx.android.synthetic.main.item_todo.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+
 
 class TodoAdapter(val todoItemClick: (Todo) -> Unit, val todoItemLongClick: (Todo) -> Unit):
-    RecyclerView.Adapter<TodoAdapter.ViewHolder> () {
-    private var todos: List<Todo> = listOf()
+    ListAdapter<Todo, TodoAdapter.ViewHolder>(TodoDiffUtil) {
+    //private var todos: List<Todo> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemTodoBinding.inflate(LayoutInflater.from(parent.context),parent, false)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = DataBindingUtil.inflate<ItemTodoBinding>(layoutInflater,viewType,parent,false)
         return ViewHolder(binding)
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return R.layout.item_todo
+    }
+
     override fun getItemCount(): Int {
-        return todos.size
+        return super.getItemCount()
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(todos[position])
+
+    override fun onBindViewHolder(holder: TodoAdapter.ViewHolder, position: Int) {
+        val todo = getItem(position)
+        holder.bind(todo)
     }
 
-    inner class ViewHolder(val binding: ItemTodoBinding):RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(private val binding: ItemTodoBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(todo: Todo) {
             binding.todo = todo
+            binding.executePendingBindings() //데이터가 수정되면 즉각 바인딩
 
             binding.root.setOnClickListener {
                 todoItemClick(todo)
@@ -47,10 +48,16 @@ class TodoAdapter(val todoItemClick: (Todo) -> Unit, val todoItemLongClick: (Tod
             }
         }
     }
-    fun setTodos(todos: List<Todo>) {
-        this.todos = todos
-        notifyDataSetChanged()
 
+    companion object TodoDiffUtil: DiffUtil.ItemCallback<Todo>(){
+        override fun areItemsTheSame(oldItem: Todo, newItem: Todo): Boolean {
+            //각 아이템들의 고유한 값을 비교해야 한다.
+            return oldItem==newItem
+        }
+
+        override fun areContentsTheSame(oldItem: Todo, newItem: Todo): Boolean {
+            return oldItem==newItem
+        }
     }
 
 
