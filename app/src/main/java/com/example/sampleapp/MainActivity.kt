@@ -5,26 +5,24 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sampleapp.databinding.ActivityMainBinding
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    val ViewModel: MainViewModel by viewModels()
+    val viewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_main)
 
         binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-        binding.lifecycleOwner = this
-        binding.viewModel = ViewModel
+        //binding.lifecycleOwner = this
+        binding.viewModel = viewModel
         setRecyclerView()
 
         binding.mainButton.setOnClickListener {
@@ -44,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra(AddActivity.EXTRA_TODO_ID, todo.id)
                 startActivity(intent)
             }.setNeutralButton("삭제"){_, _ ->
-                lifecycleScope.launch(Dispatchers.IO){ViewModel.delete(todo)}
+                lifecycleScope.launch(Dispatchers.IO){viewModel.delete(todo)}
             }
         builder.show()
     }
@@ -57,7 +55,8 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.setHasFixedSize(true)
 
-        ViewModel.getAll().observe(this, Observer { todos ->
+
+        viewModel.getAll().observe(this, Observer { todos ->
             adapter.setTodos(todos!!)
         })
     }

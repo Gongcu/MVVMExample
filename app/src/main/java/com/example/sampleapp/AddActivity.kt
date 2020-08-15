@@ -27,7 +27,7 @@ class AddActivity : AppCompatActivity() {
 
         add_button.setOnClickListener {
             if(add_edittext_title.text.isNotEmpty() && add_edittext_descript.text.isNotEmpty()){
-                val todo = Todo(id, add_edittext_title.text.toString(), add_edittext_descript.text.toString())
+                val todo = Todo(id, add_edittext_title.text.toString(), add_edittext_descript.text.toString(),"")
                 lifecycleScope.launch(Dispatchers.IO){todoViewModel.insert(todo)}
                 finish()
             }else{

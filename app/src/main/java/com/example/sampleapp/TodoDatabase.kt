@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [Todo::class], version = 1)
+@Database(entities = [Todo::class], version = 2)
 abstract class TodoDatabase : RoomDatabase() {
     abstract fun todoDao(): TodoDao
 
@@ -27,4 +29,5 @@ abstract class TodoDatabase : RoomDatabase() {
     }
 
 }
+
     

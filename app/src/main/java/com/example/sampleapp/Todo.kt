@@ -14,8 +14,13 @@ data class Todo(
     var title: String,
 
     @ColumnInfo(name="description")
-    var description: String
+    var description: String,
+
+    @ColumnInfo(name="imageUrl")
+    var imageUrl: String
+
     )
 {
-    constructor(): this(null,"","")
+    constructor(): this(null,"","","")
 }
+

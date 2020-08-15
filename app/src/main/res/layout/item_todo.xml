@@ -17,9 +17,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <TextView
+            <ImageView
                 android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:id="@+id/item_tv_initial"
                 android:textSize="30dp"
                 android:padding="4dp"
@@ -29,6 +29,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="16dp"
                 tools:text="H"
+                app:imageUrl="@{todo.imageUrl}"
                 android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginBottom="16dp"/>
@@ -36,7 +37,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/item_tv_name"
+                android:id="@+id/item_tv_title"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/item_tv_initial"
@@ -51,8 +52,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                app:layout_constraintTop_toBottomOf="@+id/item_tv_name"
-                app:layout_constraintStart_toStartOf="@+id/item_tv_name"
+                app:layout_constraintTop_toBottomOf="@+id/item_tv_title"
+                app:layout_constraintStart_toStartOf="@+id/item_tv_title"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:text="@{todo.description.toString()}"/>
