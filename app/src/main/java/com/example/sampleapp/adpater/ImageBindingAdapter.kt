@@ -1,13 +1,15 @@
-package com.example.sampleapp
+package com.example.sampleapp.adpater
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.example.sampleapp.R
 
 object ImageBindingAdapter {
     @BindingAdapter("imageUrl")
     @JvmStatic
     fun loadImage(imageView: ImageView, url: String){
-        Glide.with(imageView.context).load(url).error(R.drawable.ic_launcher_background).into(imageView)
+        val baseUrl = "https://image.tmdb.org/t/p/w500/"
+        Glide.with(imageView.context).load(baseUrl+url).error(R.drawable.ic_launcher_background).into(imageView)
     }
 }

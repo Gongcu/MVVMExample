@@ -1,7 +1,8 @@
-package com.example.sampleapp
+package com.example.sampleapp.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.sampleapp.room.Todo
 
 @Dao
 interface TodoDao {

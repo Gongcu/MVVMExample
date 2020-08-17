@@ -1,4 +1,4 @@
-package com.example.sampleapp
+package com.example.sampleapp.adpater
 
 
 import android.view.LayoutInflater
@@ -7,12 +7,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.sampleapp.R
 import com.example.sampleapp.databinding.ItemTodoBinding
+import com.example.sampleapp.room.Todo
 
 
-class TodoAdapter(val todoItemClick: (Todo) -> Unit, val todoItemLongClick: (Todo) -> Unit):
-    ListAdapter<Todo, TodoAdapter.ViewHolder>(TodoDiffUtil) {
-    //private var todos: List<Todo> = listOf()
+    class TodoAdapter(val todoItemClick: (Todo) -> Unit, val todoItemLongClick: (Todo) -> Unit):
+    ListAdapter<Todo, TodoAdapter.ViewHolder>(
+        TodoDiffUtil
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -29,7 +32,7 @@ class TodoAdapter(val todoItemClick: (Todo) -> Unit, val todoItemLongClick: (Tod
     }
 
 
-    override fun onBindViewHolder(holder: TodoAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val todo = getItem(position)
         holder.bind(todo)
     }

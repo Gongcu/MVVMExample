@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.sampleapp.room.Todo
 import kotlinx.android.synthetic.main.activity_add.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,7 +28,12 @@ class AddActivity : AppCompatActivity() {
 
         add_button.setOnClickListener {
             if(add_edittext_title.text.isNotEmpty() && add_edittext_descript.text.isNotEmpty()){
-                val todo = Todo(id, add_edittext_title.text.toString(), add_edittext_descript.text.toString(),"")
+                val todo = Todo(
+                    id,
+                    add_edittext_title.text.toString(),
+                    add_edittext_descript.text.toString(),
+                    ""
+                )
                 lifecycleScope.launch(Dispatchers.IO){todoViewModel.insert(todo)}
                 finish()
             }else{
