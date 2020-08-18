@@ -2,6 +2,7 @@ package com.example.sampleapp
 
 import android.app.Application
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.sampleapp.retrofit.Movie
@@ -41,6 +42,8 @@ class Repository(application: Application) {
 
         api.getUpcomingMovie().enqueue(object : Callback<UpComingMovie> {
             override fun onResponse(call: Call<UpComingMovie>, response: Response<UpComingMovie>) {
+                if(!response.isSuccessful)
+                    Log.e("ERROR:", "데이터를 가져오는데 실패했습니다.")
                 data.value=response.body()!!.movieList
             }
             // Error case is left out for brevity.

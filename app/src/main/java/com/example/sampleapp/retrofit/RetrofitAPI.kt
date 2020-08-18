@@ -1,12 +1,10 @@
 package com.example.sampleapp.retrofit
 
-import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitAPI {
     private var instance : Retrofit? = null
-    private val gson = GsonBuilder().setLenient().create()
 
     fun getInstnace() : Retrofit {
         if(instance == null){

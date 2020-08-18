@@ -1,10 +1,12 @@
-package com.example.sampleapp
+package com.example.sampleapp.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.sampleapp.MainViewModel
+import com.example.sampleapp.R
 import com.example.sampleapp.room.Todo
 import kotlinx.android.synthetic.main.activity_add.*
 import kotlinx.coroutines.Dispatchers
@@ -19,8 +21,11 @@ class AddActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add)
 
-        if(intent!=null && intent.hasExtra(EXTRA_TODO_TITLE) && intent.hasExtra(EXTRA_TODO_DESC) && intent.hasExtra(
-                EXTRA_TODO_ID)){
+        if(intent!=null && intent.hasExtra(EXTRA_TODO_TITLE) && intent.hasExtra(
+                EXTRA_TODO_DESC
+            ) && intent.hasExtra(
+                EXTRA_TODO_ID
+            )){
             add_edittext_title.setText(intent.getStringExtra(EXTRA_TODO_TITLE))
             add_edittext_descript.setText(intent.getStringExtra(EXTRA_TODO_DESC))
             id=intent.getIntExtra(EXTRA_TODO_ID, -1)
