@@ -19,4 +19,24 @@
         android:name="com.example.sampleapp.view.SecondFragment"
         android:label="fragment_second"
         tools:layout="@layout/fragment_second" />
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.sampleapp.view.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument android:name="overview"
+            app:argType="string" />
+        <argument android:name="is_adult"
+            app:argType="boolean" />
+        <argument
+            android:name="posterPath"
+            app:argType="string" />
+        <argument
+            android:name="releaseDate"
+            app:argType="string" />
+    </fragment>
+    <action android:id="@+id/action_global_detailFragment" app:destination="@id/detailFragment" />
 </navigation>

@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.sampleapp.view.MainViewModel" />
+            type="com.example.sampleapp.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Upcoming Movie List"
+            android:text="Selected Movie List"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

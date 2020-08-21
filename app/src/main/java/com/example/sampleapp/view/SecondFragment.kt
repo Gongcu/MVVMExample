@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import com.example.sampleapp.MainViewModel
 import com.example.sampleapp.R
 import com.example.sampleapp.adpater.TodoAdapter
 import com.example.sampleapp.databinding.FragmentSecondBinding

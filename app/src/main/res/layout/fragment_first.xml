@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.sampleapp.view.MainViewModel" />
+            type="com.example.sampleapp.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
