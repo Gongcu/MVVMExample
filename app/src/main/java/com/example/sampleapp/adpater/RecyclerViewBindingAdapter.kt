@@ -7,10 +7,17 @@ import com.example.sampleapp.retrofit.Movie
 import com.example.sampleapp.room.Todo
 
 object RecyclerViewBindingAdapter {
-    @BindingAdapter("listData")
+    @BindingAdapter("movieData")
     @JvmStatic
-    fun BindData(recyclerView: RecyclerView, movies: List<Movie>?){
+    fun bindMovieData(recyclerView: RecyclerView, movies: List<Movie>?){
         val adapter = recyclerView.adapter as MovieAdapter
         adapter.submitList(movies)
+    }
+
+    @BindingAdapter("todoData")
+    @JvmStatic
+    fun bindTodoData(recyclerView: RecyclerView, todos: List<Todo>?){
+        val adapter = recyclerView.adapter as TodoAdapter
+        adapter.submitList(todos)
     }
 }

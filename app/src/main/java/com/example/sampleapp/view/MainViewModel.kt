@@ -1,10 +1,10 @@
-package com.example.sampleapp
+package com.example.sampleapp.view
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import com.example.sampleapp.Repository
 import com.example.sampleapp.retrofit.Movie
-import com.example.sampleapp.retrofit.UpComingMovie
 import com.example.sampleapp.room.Todo
 
 class MainViewModel(application: Application): AndroidViewModel(application) {
@@ -13,9 +13,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val movies = repository.getMovieData()
 
 
-    fun getAll() : LiveData<List<Todo>>{
-        return todos
-    }
+
 
     fun insert(todo: Todo){
         repository.insert(todo)
@@ -25,5 +23,8 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     }
     fun getMovieData():LiveData<List<Movie>>{
         return movies
+    }
+    fun getTodoData() : LiveData<List<Todo>>{
+        return todos
     }
 }

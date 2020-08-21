@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sampleapp.R
+import com.example.sampleapp.databinding.ItemMovieBinding
 import com.example.sampleapp.databinding.ItemTodoBinding
 import com.example.sampleapp.retrofit.Movie
 import com.example.sampleapp.room.Todo
@@ -20,12 +21,12 @@ import com.example.sampleapp.room.Todo
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = DataBindingUtil.inflate<ItemTodoBinding>(layoutInflater,viewType,parent,false)
+        val binding = DataBindingUtil.inflate<ItemMovieBinding>(layoutInflater,viewType,parent,false)
         return ViewHolder(binding)
     }
 
     override fun getItemViewType(position: Int): Int {
-        return R.layout.item_todo
+        return R.layout.item_movie
     }
 
     override fun getItemCount(): Int {
@@ -38,7 +39,7 @@ import com.example.sampleapp.room.Todo
         holder.bind(movie)
     }
 
-    inner class ViewHolder(private val binding: ItemTodoBinding):RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(private val binding: ItemMovieBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(movie: Movie) {
             binding.movie = movie
             binding.executePendingBindings() //데이터가 수정되면 즉각 바인딩

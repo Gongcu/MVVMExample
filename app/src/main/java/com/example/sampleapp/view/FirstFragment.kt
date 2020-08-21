@@ -1,4 +1,4 @@
-package com.example.sampleapp
+package com.example.sampleapp.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,14 +9,18 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
+import com.example.sampleapp.R
 import com.example.sampleapp.adpater.MovieAdapter
 import com.example.sampleapp.databinding.FragmentFirstBinding
 import com.example.sampleapp.retrofit.Movie
-import com.example.sampleapp.view.AddActivity
-import kotlinx.android.synthetic.main.fragment_first.view.*
+import com.example.sampleapp.room.Todo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class FirstFragment : Fragment() {
-
     private lateinit var binding: FragmentFirstBinding
     val viewModel: MainViewModel by viewModels()
 
@@ -30,7 +34,8 @@ class FirstFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate<FragmentFirstBinding>(inflater, R.layout.fragment_first,container,false)
+        binding = DataBindingUtil.inflate<FragmentFirstBinding>(inflater,
+            R.layout.fragment_first,container,false)
         return binding.root
     }
 
@@ -41,36 +46,26 @@ class FirstFragment : Fragment() {
         binding.viewModel = viewModel
         setRecyclerView()
 
-        binding.mainButton.setOnClickListener {
-            val intent = Intent(activity, AddActivity::class.java)
-            startActivity(intent)
-        }
-
     }
-    private fun deleteDialog(todo: Movie) {
+    private fun deleteDialog(movie: Movie) {
         val builder = AlertDialog.Builder(this.context!!)
         builder.setMessage("Delete selected contact?")
             .setNegativeButton("취소") { _, _ -> }
-            .setPositiveButton("편집") { _, _ ->
-                val intent = Intent(activity, AddActivity::class.java)
-                intent.putExtra(AddActivity.EXTRA_TODO_TITLE, todo.title)
-                //intent.putExtra(AddActivity.EXTRA_TODO_DESC, todo.description)
-                //intent.putExtra(AddActivity.EXTRA_TODO_ID, todo.id)
-                startActivity(intent)
-            }.setNeutralButton("삭제"){_, _ ->
-                //lifecycleScope.launch(Dispatchers.IO){viewModel.delete(todo)}
+            .setPositiveButton("추가") { _, _ ->
+                val todo = Todo(null, movie.title, movie.overview, movie.poster_path)
+                lifecycleScope.launch(Dispatchers.IO){viewModel.insert(todo)}
+                val direction: NavDirections = FirstFragmentDirections.actionFirstFragmentToSecondFragment()
+                findNavController().navigate(direction)
             }
         builder.show()
     }
 
     private fun setRecyclerView(){
-        // Set contactItemClick & contactItemLongClick lambda
         val adapter =
             MovieAdapter({ movie -> deleteDialog(movie) },
                 { movie -> deleteDialog(movie) })
 
         binding.recyclerView.adapter=adapter
         binding.recyclerView.setHasFixedSize(true)
-        //viewModel.logMovieData()
     }
 }

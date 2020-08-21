@@ -1,14 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".SecondFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.FirstFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
+    <data>
+        <variable
+            name="fragment"
+            type="com.example.sampleapp.view.FirstFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.example.sampleapp.view.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_width="match_parent"
+        >
+        <!--
+        For those, accepted answer didn't work and by any change you are using the android Data Binding
+        then this kind of error may come if some of the attributes are present twice in parent tag as well as child tag.
+         In below example the android:layout_width="match_parent" android:layout_height="wrap_content" are used twice in parent as well as in child.
+         즉 가장 상위 layout 태그에 높이 너비 지정해주면 안된다.!!
+        -->
+        <TextView
+            android:id="@+id/textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Upcoming Movie List"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview"
+            app:todoData="@{viewModel.todoData}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_todo" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -13,11 +13,11 @@ data class Todo(
     @ColumnInfo(name ="title")
     var title: String,
 
-    @ColumnInfo(name="description")
-    var description: String,
+    @ColumnInfo(name="overview")
+    var overview: String,
 
-    @ColumnInfo(name="imageUrl")
-    var imageUrl: String
+    @ColumnInfo(name="poster_path")
+    var posterPath: String
 
     )
 {
