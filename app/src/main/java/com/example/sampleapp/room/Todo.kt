@@ -17,10 +17,12 @@ data class Todo(
     var overview: String,
 
     @ColumnInfo(name="poster_path")
-    var posterPath: String
+    var posterPath: String,
 
+    @ColumnInfo(name = "word_order")
+    var wordOrder: Int
     )
 {
-    constructor(): this(null,"","","")
+    constructor(): this(null,"","","",0)
 }
 

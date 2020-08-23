@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
+import com.example.sampleapp.ItemMoveCallback
 import com.example.sampleapp.MainViewModel
 import com.example.sampleapp.R
 import com.example.sampleapp.adpater.TodoAdapter
@@ -45,21 +47,20 @@ class SecondFragment : Fragment() {
         builder.setMessage("Delete selected contact?")
             .setNegativeButton("취소") { _, _ -> }
             .setPositiveButton("편집") { _, _ ->
-                val intent = Intent(activity, AddActivity::class.java)
-                intent.putExtra(AddActivity.EXTRA_TODO_TITLE, todo.title)
+                //val intent = Intent(activity, AddActivity::class.java)
+                //intent.putExtra(AddActivity.EXTRA_TODO_TITLE, todo.title)
                 //intent.putExtra(AddActivity.EXTRA_TODO_DESC, todo.description)
                 //intent.putExtra(AddActivity.EXTRA_TODO_ID, todo.id)
-                startActivity(intent)
+                //startActivity(intent)
             }
         builder.show()
     }
 
     private fun setRecyclerView(){
         // Set contactItemClick & contactItemLongClick lambda
-        val adapter =
-            TodoAdapter({ todo -> deleteDialog(todo) },
-                { todo -> deleteDialog(todo) })
-
+        val adapter = TodoAdapter(activity!!.application)
+        val touchHelper = ItemTouchHelper(ItemMoveCallback(adapter))
+        touchHelper.attachToRecyclerView(binding.recyclerView)
         binding.recyclerView.adapter=adapter
         binding.recyclerView.setHasFixedSize(true)
         //viewModel.logMovieData()

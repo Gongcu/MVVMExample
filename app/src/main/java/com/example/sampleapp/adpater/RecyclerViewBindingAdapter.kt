@@ -17,6 +17,7 @@ object RecyclerViewBindingAdapter {
     @BindingAdapter("todoData")
     @JvmStatic
     fun bindTodoData(recyclerView: RecyclerView, todos: List<Todo>?){
+        //리사이클러뷰의 어답터를 가져옴
         val adapter = recyclerView.adapter as TodoAdapter
         adapter.submitList(todos)
     }

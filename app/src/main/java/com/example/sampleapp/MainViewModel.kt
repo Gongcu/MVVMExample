@@ -12,9 +12,6 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val todos = repository.getAll()
     private val movies = repository.getMovieData()
 
-
-
-
     fun insert(todo: Todo){
         repository.insert(todo)
     }
@@ -26,5 +23,11 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     }
     fun getTodoData() : LiveData<List<Todo>>{
         return todos
+    }
+    fun getMaxOrder() : Int{
+        return repository.getMaxOrder()
+    }
+    fun itemSwap(todo1:Todo, todo2:Todo){
+        repository.itemSwap(todo1, todo2)
     }
 }

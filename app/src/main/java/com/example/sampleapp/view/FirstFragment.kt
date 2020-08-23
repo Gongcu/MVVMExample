@@ -11,6 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import com.example.sampleapp.ItemMoveCallback
 import com.example.sampleapp.MainViewModel
 import com.example.sampleapp.NavMainDirections
 import com.example.sampleapp.R
@@ -53,8 +55,10 @@ class FirstFragment : Fragment() {
         builder.setMessage("Delete selected contact?")
             .setNegativeButton("취소") { _, _ -> }
             .setPositiveButton("추가") { _, _ ->
-                val todo = Todo(null, movie.title, movie.overview, movie.poster_path)
-                lifecycleScope.launch(Dispatchers.IO){viewModel.insert(todo)}
+                lifecycleScope.launch(Dispatchers.IO){
+                    val todo = Todo(null, movie.title, movie.overview, movie.poster_path, viewModel.getMaxOrder()+1)
+                    viewModel.insert(todo)
+                }
                 val direction: NavDirections = FirstFragmentDirections.actionFirstFragmentToSecondFragment()
                 findNavController().navigate(direction)
             }.setNeutralButton("상세"){_,_ ->

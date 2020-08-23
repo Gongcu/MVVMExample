@@ -29,6 +29,10 @@ class Repository(application: Application) {
         return todos
     }
 
+    fun getMaxOrder():Int{
+        return todoDao.getMaxOrder()
+    }
+
     fun insert(todo: Todo){
         todoDao.insert(todo)
     }
@@ -52,6 +56,10 @@ class Repository(application: Application) {
             }
         })
         return data
+    }
+    fun itemSwap(todo1: Todo, todo2:Todo){
+        todoDao.update(todo1)
+        todoDao.update(todo2)
     }
 }
 
