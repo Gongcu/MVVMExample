@@ -39,6 +39,9 @@ class Repository(application: Application) {
     fun delete(todo: Todo){
         todoDao.delete(todo)
     }
+    fun deleteById(id: Int){
+        todoDao.deleteById(id)
+    }
     fun update(todo: Todo){
         todoDao.update(todo)
     }
@@ -61,10 +64,6 @@ class Repository(application: Application) {
             }
         })
         return data
-    }
-    fun itemSwap(todo1: Todo, todo2:Todo){
-        todoDao.update(todo1)
-        todoDao.update(todo2)
     }
 }
 

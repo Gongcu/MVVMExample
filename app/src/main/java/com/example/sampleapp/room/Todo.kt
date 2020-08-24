@@ -24,11 +24,6 @@ data class Todo (
     ) : Comparable<Todo>
 {
     constructor(): this(null,"","","",0)
-    fun fieldCopy(title: String,overview: String,posterPath: String){
-        this.title=title
-        this.overview=overview
-        this.posterPath=posterPath
-    }
 
     override fun compareTo(other: Todo): Int {
         return this.itemOrder.compareTo(other.itemOrder)

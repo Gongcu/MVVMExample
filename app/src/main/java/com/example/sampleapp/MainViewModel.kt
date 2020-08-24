@@ -18,6 +18,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     fun delete(todo: Todo){
         repository.delete(todo)
     }
+    fun deleteById(id:Int){
+        repository.deleteById(id)
+    }
     fun update(todo: Todo){
         repository.update(todo)
     }

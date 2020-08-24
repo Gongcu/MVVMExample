@@ -41,6 +41,11 @@ class TodoAdapter(application: Application): ListAdapter<Todo, TodoAdapter.ViewH
 
 
     fun getList() : ArrayList<Todo> {
+        for(i in 0 until list.size){
+            Log.d("item:title", "${list[i].title}")
+            Log.d("item:itemOrder", "${list[i].itemOrder}")
+
+        }
         return list
     }
 
@@ -65,21 +70,27 @@ class TodoAdapter(application: Application): ListAdapter<Todo, TodoAdapter.ViewH
             set=true
         }
         //이거는 order만 바꾸어줌
-        val temp = list.get(fromPosition).itemOrder
-        list.get(fromPosition).itemOrder=list.get(toPosition).itemOrder
-        list.get(toPosition).itemOrder = temp
+        val temp = list[fromPosition].itemOrder
+        list[fromPosition].itemOrder=list[toPosition].itemOrder
+        list[toPosition].itemOrder = temp
 
         Collections.sort(list)
         notifyItemMoved(fromPosition,toPosition)
     }
     override fun onItemDismiss(position: Int) {
-        viewModel.viewModelScope.launch ( Dispatchers.IO ){
-            viewModel.delete(getItem(position))
+        if(!set) {
+            list.addAll(currentList)
+            set=true
         }
-    }
-
-    override fun itemMoveFinished() {
-
+        /*
+        list.removeAt(position)
+        submitList(list)
+        notifyItemRemoved(position)
+        */
+        viewModel.viewModelScope.launch(Dispatchers.IO){
+            viewModel.deleteById(list[position].id!!)
+            list.removeAt(position)
+        }
     }
 
 
@@ -93,15 +104,6 @@ class TodoAdapter(application: Application): ListAdapter<Todo, TodoAdapter.ViewH
             return oldItem == newItem
         }
     }
-
-    fun swap(from: Int, to:Int){
-        val fromItem = getItem(from)
-        val toItem =getItem(to)
-        getItem(from).fieldCopy(toItem.title,toItem.overview,toItem.posterPath)
-        getItem(to).fieldCopy(fromItem.title,fromItem.overview,fromItem.posterPath)
-
-    }
-
 }
 
 
