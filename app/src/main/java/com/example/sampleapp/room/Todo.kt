@@ -28,5 +28,20 @@ data class Todo (
     override fun compareTo(other: Todo): Int {
         return this.itemOrder.compareTo(other.itemOrder)
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Todo
+
+        if (id != other.id) return false
+        if (title != other.title) return false
+        if (overview != other.overview) return false
+        if (posterPath != other.posterPath) return false
+        if (itemOrder != other.itemOrder) return false
+
+        return true
+    }
 }
 

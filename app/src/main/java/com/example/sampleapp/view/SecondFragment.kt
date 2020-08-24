@@ -54,6 +54,7 @@ class SecondFragment : Fragment() {
     }
 
 
+    /*
     override fun onPause() {
         super.onPause()
         viewModel.viewModelScope.launch(Dispatchers.IO){
@@ -61,6 +62,11 @@ class SecondFragment : Fragment() {
                 Log.d("pause","call")
                 viewModel.updateAll(adapter.getList())
             }
+            if(adapter.getDeletedItemList().size > 0){
+                val deletedItemList = adapter.getDeletedItemList()
+                for(i in (deletedItemList.size-1) downTo 0)
+                    viewModel.delete(deletedItemList[i])
+            }
         }
-    }
+    }*/
 }
