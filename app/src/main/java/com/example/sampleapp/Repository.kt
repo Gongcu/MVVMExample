@@ -39,7 +39,12 @@ class Repository(application: Application) {
     fun delete(todo: Todo){
         todoDao.delete(todo)
     }
-
+    fun update(todo: Todo){
+        todoDao.update(todo)
+    }
+    fun updateAll(todoList: List<Todo>){
+        todoDao.updateAll(todoList)
+    }
     fun getMovieData(): LiveData<List<Movie>> {
         // This isn't an optimal implementation. We'll fix it later.
         val data = MutableLiveData<List<Movie>>()

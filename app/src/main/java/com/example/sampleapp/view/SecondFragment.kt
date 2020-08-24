@@ -1,14 +1,13 @@
 package com.example.sampleapp.view
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.sampleapp.ItemMoveCallback
 import com.example.sampleapp.MainViewModel
@@ -16,11 +15,13 @@ import com.example.sampleapp.R
 import com.example.sampleapp.adpater.TodoAdapter
 import com.example.sampleapp.databinding.FragmentSecondBinding
 import com.example.sampleapp.room.Todo
+import kotlinx.coroutines.*
+
 
 class SecondFragment : Fragment() {
     private lateinit var binding: FragmentSecondBinding
     val viewModel: MainViewModel by viewModels()
-
+    private lateinit var adapter:TodoAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,27 +43,20 @@ class SecondFragment : Fragment() {
         setRecyclerView()
 
     }
-    private fun deleteDialog(todo: Todo) {
-        val builder = AlertDialog.Builder(this.context!!)
-        builder.setMessage("Delete selected contact?")
-            .setNegativeButton("취소") { _, _ -> }
-            .setPositiveButton("편집") { _, _ ->
-                //val intent = Intent(activity, AddActivity::class.java)
-                //intent.putExtra(AddActivity.EXTRA_TODO_TITLE, todo.title)
-                //intent.putExtra(AddActivity.EXTRA_TODO_DESC, todo.description)
-                //intent.putExtra(AddActivity.EXTRA_TODO_ID, todo.id)
-                //startActivity(intent)
-            }
-        builder.show()
-    }
 
     private fun setRecyclerView(){
-        // Set contactItemClick & contactItemLongClick lambda
-        val adapter = TodoAdapter(activity!!.application)
+        adapter = TodoAdapter(activity!!.application)
         val touchHelper = ItemTouchHelper(ItemMoveCallback(adapter))
         touchHelper.attachToRecyclerView(binding.recyclerView)
         binding.recyclerView.adapter=adapter
         binding.recyclerView.setHasFixedSize(true)
-        //viewModel.logMovieData()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.viewModelScope.launch(Dispatchers.IO){
+            if(adapter.getList().size>0)
+                viewModel.updateAll(adapter.getList())
+        }
     }
 }

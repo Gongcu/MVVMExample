@@ -24,6 +24,7 @@ class ItemMoveCallback(private val listener: ItemTouchHelperListener) : ItemTouc
         return true
     }
 
+
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         //스와이프할 시
         listener.onItemDismiss(viewHolder.adapterPosition)
@@ -35,6 +36,11 @@ class ItemMoveCallback(private val listener: ItemTouchHelperListener) : ItemTouc
 
     override fun isItemViewSwipeEnabled(): Boolean {
         return true
+    }
+
+    override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+        super.clearView(recyclerView, viewHolder)
+        listener.itemMoveFinished()
     }
 
 }

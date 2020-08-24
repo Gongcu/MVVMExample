@@ -3,9 +3,9 @@ package com.example.sampleapp
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.example.sampleapp.Repository
 import com.example.sampleapp.retrofit.Movie
 import com.example.sampleapp.room.Todo
+import kotlinx.coroutines.coroutineScope
 
 class MainViewModel(application: Application): AndroidViewModel(application) {
     private val repository = Repository(application)
@@ -18,6 +18,12 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     fun delete(todo: Todo){
         repository.delete(todo)
     }
+    fun update(todo: Todo){
+        repository.update(todo)
+    }
+    fun updateAll(todoList: List<Todo>) {
+        repository.updateAll(todoList)
+    }
     fun getMovieData():LiveData<List<Movie>>{
         return movies
     }
@@ -26,8 +32,5 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     }
     fun getMaxOrder() : Int{
         return repository.getMaxOrder()
-    }
-    fun itemSwap(todo1:Todo, todo2:Todo){
-        repository.itemSwap(todo1, todo2)
     }
 }

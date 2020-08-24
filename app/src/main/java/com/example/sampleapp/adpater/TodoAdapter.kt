@@ -2,8 +2,11 @@ package com.example.sampleapp.adpater
 
 
 import android.app.Application
+import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.DiffUtil
@@ -13,12 +16,17 @@ import com.example.sampleapp.MainViewModel
 import com.example.sampleapp.R
 import com.example.sampleapp.databinding.ItemTodoBinding
 import com.example.sampleapp.room.Todo
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import java.util.*
+import java.util.stream.Collectors
+import kotlin.collections.ArrayList
 
 
 class TodoAdapter(application: Application): ListAdapter<Todo, TodoAdapter.ViewHolder>(TodoDiffUtil), ItemTouchHelperListener {
-    private val viewModel = MainViewModel(application)
+    private var viewModel :MainViewModel = MainViewModel(application)
+    private var list = ArrayList<Todo>()
+    var set = false
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -31,10 +39,10 @@ class TodoAdapter(application: Application): ListAdapter<Todo, TodoAdapter.ViewH
         return R.layout.item_todo
     }
 
-    override fun getItemCount(): Int {
-        return super.getItemCount()
-    }
 
+    fun getList() : ArrayList<Todo> {
+        return list
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val todo = getItem(position)
@@ -46,26 +54,34 @@ class TodoAdapter(application: Application): ListAdapter<Todo, TodoAdapter.ViewH
         RecyclerView.ViewHolder(binding.root) {
         fun bind(todo: Todo) {
             binding.todo = todo
-            binding.executePendingBindings() //데이터가 수정되면 즉각 바인딩
+            //binding.executePendingBindings() //데이터가 수정되면 즉각 바인딩
         }
 
     }
 
-    override fun onItemMove(startPos:Int, endPos:Int) {
-        if(startPos!=RecyclerView.NO_POSITION &&endPos!=RecyclerView.NO_POSITION  ) {
-            viewModel.viewModelScope.launch(Dispatchers.IO) {
-            val temp = getItem(startPos).wordOrder
-            getItem(startPos).wordOrder = getItem(endPos).wordOrder
-            getItem(endPos).wordOrder = temp
-                viewModel.itemSwap(getItem(startPos), getItem(endPos))
-            }
+    override fun onItemMove(fromPosition:Int, toPosition:Int) {
+        if(!set) {
+            list.addAll(currentList)
+            set=true
         }
+        //이거는 order만 바꾸어줌
+        val temp = list.get(fromPosition).itemOrder
+        list.get(fromPosition).itemOrder=list.get(toPosition).itemOrder
+        list.get(toPosition).itemOrder = temp
+
+        Collections.sort(list)
+        notifyItemMoved(fromPosition,toPosition)
     }
     override fun onItemDismiss(position: Int) {
         viewModel.viewModelScope.launch ( Dispatchers.IO ){
             viewModel.delete(getItem(position))
         }
     }
+
+    override fun itemMoveFinished() {
+
+    }
+
 
     companion object TodoDiffUtil : DiffUtil.ItemCallback<Todo>() {
         override fun areItemsTheSame(oldItem: Todo, newItem: Todo): Boolean {
@@ -78,4 +94,14 @@ class TodoAdapter(application: Application): ListAdapter<Todo, TodoAdapter.ViewH
         }
     }
 
+    fun swap(from: Int, to:Int){
+        val fromItem = getItem(from)
+        val toItem =getItem(to)
+        getItem(from).fieldCopy(toItem.title,toItem.overview,toItem.posterPath)
+        getItem(to).fieldCopy(fromItem.title,fromItem.overview,fromItem.posterPath)
+
+    }
+
 }
+
+
