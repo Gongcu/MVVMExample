@@ -16,13 +16,11 @@ import com.example.sampleapp.MainViewModel
 import com.example.sampleapp.R
 import com.example.sampleapp.databinding.ItemTodoBinding
 import com.example.sampleapp.room.Todo
-import kotlinx.coroutines.*
 import java.util.*
-import java.util.stream.Collectors
 import kotlin.collections.ArrayList
 
 
-class TodoAdapter(application: Application): ListAdapter<Todo, TodoAdapter.ViewHolder>(TodoDiffUtil), ItemTouchHelperListener {
+class TodoAdapter(application: Application): RecyclerView.Adapter<TodoAdapter.ViewHolder>(), ItemTouchHelperListener {
     private var viewModel :MainViewModel = MainViewModel(application)
     private var list = ArrayList<Todo>()
     private var deletedItemList = ArrayList<Todo>()
@@ -47,7 +45,7 @@ class TodoAdapter(application: Application): ListAdapter<Todo, TodoAdapter.ViewH
         return deletedItemList
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val todo = getItem(position)
+        val todo = list[position]
         holder.bind(todo)
     }
 
@@ -62,55 +60,29 @@ class TodoAdapter(application: Application): ListAdapter<Todo, TodoAdapter.ViewH
     }
 
     override fun onItemMove(fromPosition:Int, toPosition:Int) {
-        if(!set) {
-            list.addAll(currentList)
-            set=true
-        }
-        //이거는 order만 바꾸어줌
         val temp = list[fromPosition].itemOrder
         list[fromPosition].itemOrder=list[toPosition].itemOrder
         list[toPosition].itemOrder = temp
 
         Collections.sort(list)
         notifyItemMoved(fromPosition,toPosition)
-
     }
 
-    override fun onItemMoveFinished() {
-        viewModel.viewModelScope.launch(Dispatchers.IO) {
-            viewModel.updateAll(list)
-        }
+
+    fun setList(list:ArrayList<Todo>){
+        this.list=list
+        notifyDataSetChanged()
     }
 
 
     override fun onItemDismiss(position: Int) {
-        if (!set) {
-            list.addAll(currentList)
-            set = true
-        }
-        /*
         deletedItemList.add(list[position])
         list.removeAt(position)
-        Collections.sort(list)
-        //notifyItemRemoved(position)
-         */
-        val index=currentList.indexOf(list[position])
-        list.removeAt(position)
-
-        viewModel.viewModelScope.launch(Dispatchers.IO) {
-            viewModel.delete(getItem(index))
-        }
+        notifyItemRemoved(position)
     }
 
-
-    companion object TodoDiffUtil : DiffUtil.ItemCallback<Todo>() {
-        override fun areItemsTheSame(oldItem: Todo, newItem: Todo): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: Todo, newItem: Todo): Boolean {
-            return false
-        }
+    override fun getItemCount(): Int {
+        return list.size
     }
 }
 

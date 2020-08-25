@@ -23,10 +23,6 @@ class SecondFragment : Fragment() {
     private lateinit var binding: FragmentSecondBinding
     val viewModel: MainViewModel by viewModels()
     private lateinit var adapter:TodoAdapter
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,12 +50,11 @@ class SecondFragment : Fragment() {
     }
 
 
-    /*
+
     override fun onPause() {
         super.onPause()
         viewModel.viewModelScope.launch(Dispatchers.IO){
             if(adapter.getList().size>0) {
-                Log.d("pause","call")
                 viewModel.updateAll(adapter.getList())
             }
             if(adapter.getDeletedItemList().size > 0){
@@ -68,5 +63,5 @@ class SecondFragment : Fragment() {
                     viewModel.delete(deletedItemList[i])
             }
         }
-    }*/
+    }
 }
