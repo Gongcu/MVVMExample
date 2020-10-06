@@ -3,7 +3,7 @@ Android Architecture Component를 이용한 간단한 MVVM 예제 프로젝트�
 
 <img src="https://user-images.githubusercontent.com/30337408/89999297-908e3f00-dcc9-11ea-9465-be85a4fef237.png" width=60% height=auto>
 
-## 활용 라이브러리 및 기술
+## 활용 라이브러리 및 기술 📖 
 
 * Room
 * LiveData
@@ -16,12 +16,12 @@ Android Architecture Component를 이용한 간단한 MVVM 예제 프로젝트�
 * Glide
 * ItemTouchHelper
 
-## 구현 화면
+## 구현 화면 🎨
 
 ![ezgif com-video-to-gif (1)](https://user-images.githubusercontent.com/30337408/91189632-a4a45880-e72d-11ea-9f78-6cc306f01e2b.gif)
 
 
-## 참조
+## 참조 📃 
 
 [블로그]
 https://bb-library.tistory.com/95?category=843046
